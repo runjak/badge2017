@@ -28,6 +28,7 @@
 #include "lib/i2c0.c"
 
 #include "font8x8.c"
+#include "wator.c"
 
 static struct {
 	const uint8_t *data;
@@ -697,6 +698,17 @@ enter_em4(void)
 	emu_em4_enter();
 }
 
+static void display_wator(struct display* dp, world* w)
+{
+	for(int x = 0; x < 128; x++) {
+		for(int y = 0; y < 64; y++) {
+			if(wator_alive(wator_get(w, x, y))) {
+				display_set(dp, x, y);
+			}
+		}
+	}
+}
+
 void __noreturn
 main(void)
 {
@@ -740,6 +752,9 @@ main(void)
 	rgb_on();
 	rgb_enabled = true;
 
+	world* wator_world = wator_init();
+	//wator_spawns(wator_world, 10);
+
 	/* make sure the POWER button is released */
 	while (!gpio_in(GPIO_PC4))
 		msleep(50);
@@ -754,17 +769,7 @@ main(void)
 		switch (event_pop()) {
 		case EVENT_LAST:
 			display_clear(&dp);
-			printf("\n\n"
-					"    Bornhack\n"
-					" Make Tradition\n"
-					"      2017\n"
-					"   bornhack.dk\n"
-					"    %2d %2d %2d\n"
-					"    %cR %cG %cB",
-					rgb[0], rgb[1], rgb[2],
-					(i==0) ? '*' : ' ',
-					(i==1) ? '*' : ' ',
-					(i==2) ? '*' : ' ');
+			display_wator(&dp, wator_world);
 			display_update(&dp);
 			break;
 		case EVENT_TICK500:
