@@ -760,12 +760,13 @@ main(void)
 	/* now we can start listening for button presses */
 	buttons_init();
 
-	ticker_run(&tick500, EVENT_TICK500, 500);
+	ticker_run(&tick500, EVENT_TICK500, 50);
 
 	while (1) {
 		switch (event_pop()) {
 		case EVENT_LAST:
 		case EVENT_TICK500:
+			wator_update(wator_world);
 			display_clear(&dp);
 			display_wator(&dp, wator_world);
 			display_update(&dp);
