@@ -700,12 +700,12 @@ enter_em4(void)
 
 static void display_wator(struct display* dp, world* w)
 {
-	for(int x = 0; x < 64; x++) {
-		for(int y = 0; y < 64; y++) {
+	for(int x = 0; x < WATOR_WIDTH; x++) {
+		for(int y = 0; y < WATOR_HEIGHT; y++) {
 			uint8_t fish = wator_get(w, x, y);
 			if(wator_alive(fish)) {
 				if(wator_isShark(fish)) {
-				  display_set(dp, x + 64, y);
+				  display_set(dp, x + WATOR_WIDTH, y);
 				} else {
 				  display_set(dp, x, y);
 				}

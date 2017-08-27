@@ -4,7 +4,9 @@
 
 #include "rand.c"
 
-typedef uint8_t world[64][64];
+#define WATOR_WIDTH 64
+#define WATOR_HEIGHT 64
+typedef uint8_t world[WATOR_WIDTH][WATOR_HEIGHT];
 
 static world* wator_init()
 {
@@ -12,8 +14,8 @@ static world* wator_init()
 	w = memset(w, 0, sizeof(world));
 
   volatile world* v = w;
-  for(uint8_t x = 0; x < 64; x++){
-    for(uint8_t y = 0; y < 64; y++){
+  for(uint8_t x = 0; x < WATOR_WIDTH; x++){
+    for(uint8_t y = 0; y < WATOR_HEIGHT; y++){
       (*v)[x][y] = rand_get();
     }
   }
@@ -21,9 +23,9 @@ static world* wator_init()
   return w;
 }
 
-static uint8_t wator_get(world* w, int x, int y)
+static uint8_t wator_get(world* w, uint8_t x, uint8_t y)
 {
-  return (*w)[x % 64][y % 64];
+  return (*w)[x % WATOR_WIDTH][y % WATOR_HEIGHT];
 }
 
 static bool wator_alive(uint8_t fish)
